@@ -89,6 +89,21 @@ services:
     networks:
       - monitoring
     restart: unless-stopped
+  
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ["--config=/etc/otelcol-contrib/config.yaml"]
+    volumes:
+      - ./otel-collector/otel-collector-config.yml:/etc/otelcol-contrib/config.yaml:ro
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+    expose:
+      - 8889
+    networks:
+      - monitoring
+    restart: unless-stopped
 
 networks:
   monitoring:
